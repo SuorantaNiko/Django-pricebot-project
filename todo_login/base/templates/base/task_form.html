@@ -1,0 +1,55 @@
+{% extends 'base/main.html' %}
+{% block content %}
+
+<div class="header-bar">
+    <a href="{% url 'tasks' %}">&#8592; Back</a>
+</div>
+
+<div class="card-body">
+    <div class="card-text">
+        <form method="POST" action="">
+            {% csrf_token %}
+            
+            {% if form.wishPrice.value == None %}
+
+            <label >Product name: <br> <strong>{{task.title}}</strong></label>
+
+            <label>Price now | {{task.price}} </label>            
+
+            <label style="margin-bottom: 10px;">Wishprice | Add wishprice: € </label>
+
+            {{form.wishPrice}}
+
+            {% else %}
+            
+            <label >Product name: <br> <strong>{{task.title}}</strong></label>
+            
+            <label>Price now | {{task.price}} </label>
+            
+            <label style="margin-bottom: 10px;">Wishprice | {{task.wishPrice}} € </label>
+            
+            {{form.wishPrice}}
+        
+            
+            
+            
+            {% endif %}
+                    
+            <label style="margin-top: 10px;">Product bought {{form.complete}} </label>
+            
+            <input style="margin-top: 20px;" class="button" type="submit" value="Submit">
+            
+        </form>
+        <!-- Url_nouto formi 
+        <form method="POST" action="">
+            {%csrf_token%}
+            <input style="margin-top: 20px;" type="text" name="url_name">
+            <input style="margin-top: 20px;" class="button" id="url_nouto" type="submit" name="submit" value="Url_nouto">
+        </form>
+        -->
+    </div>
+</div>
+
+
+
+{% endblock content %}

@@ -1,0 +1,165 @@
+{% extends 'base/main.html' %}
+{% block content %}
+
+
+<div class="header-bar">
+    <div >
+        <h1>Hello {{request.user|title}}</h1>
+        <h3 style="margin: 0; font-size-adjust: 2vw;">You have <i>{{count}}</i> items in your tracklist{{count|pluralize:"s"}}</h3>
+        {% for task in tasks %}
+        {% empty %}
+            <h5>1. Start by finding your product from amazon</h5>
+            <h5>2. Copy product url to textfield</h5>
+            <h5>3. Update prices </h5>
+        {% endfor %}
+    </div>
+       <!--tarkistetaan onko käyttäjä kirjautunut-->
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+</div>
+<!-- search baari 
+<div id="search-add-wrapper">
+    <form method="GET" style="margin: 20px; display: flex;">
+        <input type="text" name="search-area" value="{{search_input}}">
+        <input class="button" type="submit" value="Search item">
+    </form>
+
+    
+    
+    
+
+</div>-->
+
+<script>
+    function myFunction() {
+      alert("This will update all list items prices! ");
+    }
+    </script>
+
+<div>
+    <div style="font-size: 20px; text-align: center; margin-top: 20px;">
+        <button class="button" onclick="window.open('https://www.amazon.com/','_blank')" > Find your product </button>
+    </div>
+    <!-- luo tuotteet-->
+    <form method="POST" action="{% url 'form' %}" style="display: flex;">
+        {%csrf_token%}
+        <input style="margin: 20px;" type="text" name="url_name" placeholder="Copy amazon product url to here:">
+        <input style="margin: 20px;" class="button" id="url_nouto" type="submit" name="submit" value="Fetch product">
+    </form>
+
+    <!-- päivitä tuotteet-->
+    {% if tasks %}
+        <form method="POST" action="{% url 'form' %}" style="text-align:center;" >
+            {%csrf_token%}
+            
+            <input style="margin: 10px;" class="button" id="url_nouto" type="submit" name="submit" value="Update Prices" onmouseup="myFunction()" >
+        </form>
+        
+        <!-- py-script kokeilua -->
+        <div style="text-align: center;" >
+            <py-script id="GoodJob">
+from datetime import datetime as dt
+def Time(*args, **kwgs):
+    pyscript.write('GoodJob',dt.now().strftime('%m/%d/%Y, %H:%M:%S'))
+    
+
+            </py-script></div>
+        <div style="text-align: center;">
+            <button id="testi" class="button" type="submit" pys-onClick="Time">Time</button>
+        </div>
+
+
+    
+    {% endif %}
+    <div style="text-align: center; margin: 5px;">
+        <script>
+            function getTimeStamp() {
+                var now = new Date();
+                return ((now.getMonth() + 1) + '/' + (now.getDate()) + '/' + now.getFullYear() + " " + now.getHours() + ':'
+                                + ((now.getMinutes() < 10) ? ("0" + now.getMinutes()) : (now.getMinutes())) + ':' + ((now.getSeconds() < 10) ? ("0" + now
+                                .getSeconds()) : (now.getSeconds())));
+            } 
+            document.write(getTimeStamp())
+        </script>
+        
+    </div>
+</div>
+
+
+<div class="task-items-wrapper">
+    {% for task in tasks %}
+        <div class="task-wrapper">
+            {% if task.complete %}
+                <div class="task-title">
+                    <!--ostettu tuote-->
+                    <div style="margin-top: 10px;">
+                        <a style="color: rgb(0, 139, 58); margin: 4px;">&#10003;</a>
+                    </div>
+                    <i><s style="display: flex;"><a style="opacity: calc(0.3);" href="{% url 'task-update' task.id %}">{{task}}</a></s></i>
+                </div>
+
+                <a class="delete-link" href="{% url 'task-delete' task.id %}">&#215;</a>
+                {% else %}
+                
+                <div class="task-title">
+
+                    <!--hinta korkeampi kuin wishprice-->
+                    {% if task.price > task.wishPrice %}
+                    <div style="margin-top: 10px;"></div>
+                    <a href="{% url 'task-update' task.id %}">{{task}}<br><strong style="color: darkred;">Price now: {{task.price}} €</strong><br>WishPrice: {{task.wishPrice}} €</a><br><br>
+
+                    <!--wishpricea ei ole-->
+                    {% elif task.wishPrice == None %}
+                    <div style="margin-top: 5px;">
+                        <a style="color: rgb(204, 190, 0); margin: 5px;">&#8646;</a>
+                    </div>
+                    <a href="{% url 'task-update' task.id %}">{{task}}<br><strong style="color: rgb(204, 190, 0);">Price now: {{task.price}} €</strong></a><br>
+                    {% else %}
+
+                    <!--hinta matalampi kuin wishprice-->
+                    <div style="margin-top: 5px;">
+                        <a style="color: rgb(0, 139, 58); margin: 5px;">&#8681;</a>
+                    </div>
+                    <a href="{% url 'task-update' task.id %}">{{task}}<br><strong style="color: rgb(0, 139, 58);">Product on Sale </strong><br><strong>Price now: {{task.price}} €</strong><br>
+                        <form action={{task.product}} style="text-align: center;" target="_blank">
+                            <input class="button" style="margin-top: 20px; " type="submit" value='Go to Store &#x1f6d2;'>
+                        </form></a><br>
+                    
+                    {% endif %}
+
+                </div>
+                <a class="delete-link"  href="{% url 'task-delete' task.id %}">&#215;</a>
+            {% endif %}
+            
+        </div>
+    {% empty %}
+    <h3>No items in list</h3>
+    {% endfor %}
+
+</div>
+
+<!--table>
+    <tr>
+        <th>Item</th>
+        <th></th>
+        <th></th>
+    </tr>
+    {% for task in tasks %}
+    <tr>
+        <td>{{task.title}}</td>
+        
+        <td><a href="{% url 'task-update' task.id %}">Edit</a></td>
+        <td><a href="{% url 'task-delete' task.id %}">Delete</a></td>
+    </tr>
+    
+    {% empty %}
+    <h3>No items in list</h3>
+    {% endfor %}
+    
+
+</table-->
+
+{% endblock content %}

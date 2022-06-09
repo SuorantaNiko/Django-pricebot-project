@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HintaBotti</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+
+    <style>
+        body{
+            background-color: #2a2f38ef;
+            font-family: 'Nunito', sans-serif;
+            color:#f68657;
+            padding-top: 50px;
+            
+            font-size-adjust: 2vw;
+        }
+
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6
+            {
+                font-family: 'Raleway', sans-serif;
+                font-size-adjust: 2vw;
+            }
+        a,
+        p
+            {
+                color: #f68657;
+                font-weight: 500;
+                
+                font-size-adjust: 2vw;
+            }
+
+
+        .container{
+            min-width: 500px;
+            
+            max-width: 1000px;
+
+            
+            margin: auto;
+            background-color: rgb(42, 47, 56);
+            -webkit-box-shadow: 2px 2px 13px -4px #00000036;
+            box-shadow: 2px 2px 13px -4px #00000036;
+        }
+
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            color: #2a2f38ef;
+            
+            
+            padding: 1em;
+            border-radius: 5px 5px 0 0;
+            background: linear-gradient(180deg, #73c7ca 0%, #f68657 100%);
+        }
+
+        .header-bar a {
+            color: rgba(42, 47, 56, 0.937);
+            font-weight: 1000;
+            text-decoration: none;
+            padding: 1em;
+            
+        }
+
+        .task-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.250em;
+            background-color: #2a2f38;
+            border-top: 2px solid #3b3b3b;
+        }
+
+        .task-title {
+            display: flex;
+        }
+
+        .task-title a {
+            text-decoration: none;
+            color: #f68657;
+            margin-left: 1em;
+            font-size: 1.550em;
+            font-weight: 900;
+            transition-duration: 0.4s;
+        }
+
+        .task-title a:hover {
+            
+            color: #f687576b;
+        }
+
+        .task-complete-icon {
+            padding: .1em;
+            height: 1.250em;
+            width: 1.250em;
+            background-color: rgb(105, 192, 105);
+            border-radius: 1em;
+        }
+
+        .task-incomplete-icon {
+            
+            padding: .1em;
+            height: 1.250em;
+            width: 1.250em;
+            background-color: rgb(218, 218, 218);
+            border-radius: 1em;
+        }
+
+        .delete-link {
+            margin: 10px;
+            text-decoration: none;
+            font-weight: 900;
+            color: #a8000075;
+            font-size: 1.250em;
+            line-height: 0;
+        }
+
+        #search-add-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0px;
+            
+        }
+
+        #add-link {
+            
+            color: #f68657;
+            text-decoration: none;
+            font-size-adjust: 2vw;
+            margin-top: 15px;
+            margin-right: 5px;
+            margin-left: 5px;
+        }
+
+        input[type=text],
+        input[type=password],
+        textarea {
+            border: 1px solid #f68657;
+            border-radius: 5px;
+            padding: 15px;
+            width: 90%;
+            background-color: #2a2f38;
+            color: #f68657;
+            font-weight: 900;
+            font-size: 1.1em;
+
+        }
+        
+        
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+            -webkit-text-fill-color: #f68657 !important;
+        transition: background-color 5000s ease-in-out 0s;
+        
+        }
+
+        
+        label {
+            padding-top: 1em;
+            display: block;
+            
+            
+        }
+
+        .button { 
+            margin-left: 0px;
+            border: 1px solid #f68657;
+            background-color: #f68657;
+            color: #2a2f38;
+            padding: 10px;
+            font-size: 1.1em;
+          
+            
+           
+            
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition-duration: 0.4s;
+        }
+
+        .button:hover {
+            background-color: #4CAF50; /* Green */
+            color: white;
+        }
+
+        .card-body {
+            padding: 1.250em;
+            color: #f68657;
+            font-size: 1.4em;
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        {% block content %}
+        
+        {% endblock content %}
+
+    </div>
+   
+</body>
+</html>
